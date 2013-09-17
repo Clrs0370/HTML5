@@ -1,0 +1,248 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>传真列表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+
+</head>
+<body>
+    <div data-role="page" id="recvBoxPage" data-dom-cache="true">
+        <script type="text/javascript">
+            var myScroll,
+                pullDownEl, pullDownOffset,
+                pullUpEl, pullUpOffset,
+                generatedCount = 0;
+
+            /**
+             * 下拉刷新 
+             * myScroll.refresh();		// 数据加载完成后，调用界面更新方法
+             */
+            function pullDownAction() {
+                index += 1;
+                setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
+                    YtAjax(
+                ServerURL + "recvfaxs.ashx?seq=" + userInfo.SeqNo,
+                "hide",
+                function (data, textStatus, jqXHR) {
+
+                    if (data != undefined && data.length > 0) {
+
+                        hideLoader();
+                        CreateList(data);
+                        myScroll.refresh();
+                    }
+                    else {
+                        index -= 1;
+                        hideLoader();
+                        //msgBox("用户名或密码有误！");
+                    }
+                },
+                function (jqXHR, textStatus, errorThrown) {
+                    hideLoader();
+                    index -= 1;
+                    msgBox("Error:" + textStatus + "," + errorThrown);
+                }
+                );
+                    //数据加载完成后，调用界面更新方法   Remember to refresh when contents are loaded (ie: on ajax completion)
+                }, 1000);	// <-- Simulate network congestion, remove setTimeout from production!
+            }
+
+            /**
+             * 上拉刷新
+             * myScroll.refresh();		// 数据加载完成后，调用界面更新方法
+             */
+            function pullUpAction() {
+                index += 1;
+                setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
+                    YtAjax(
+                ServerURL + "recvfaxs.ashx?seq=" + userInfo.SeqNo + "&ind=" + index + "&siz=" + size,
+                "hide",
+                function (data, textStatus, jqXHR) {
+
+                    if (data != undefined && data.length > 0) {
+
+                        hideLoader();
+                        CreateList(data);
+                        myScroll.refresh();
+                    }
+                    else {
+                        index -= 1;
+                        hideLoader();
+                        //msgBox("用户名或密码有误！");
+                    }
+                },
+                function (jqXHR, textStatus, errorThrown) {
+                    hideLoader(); index -= 1;
+                    msgBox("Error:" + textStatus + "," + errorThrown);
+                }
+                );// 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+                }, 1000);	// <-- Simulate network congestion, remove setTimeout from production!
+            }
+
+            /**
+             * 初始化iScroll控件
+             */
+            function loaded2() {
+                if (myScroll != null) {
+                    myScroll.destroy();
+                }
+                pullDownEl = document.getElementById('pullDown');
+                pullDownOffset = pullDownEl.offsetHeight;
+                pullUpEl = document.getElementById('pullUp');
+                pullUpOffset = pullUpEl.offsetHeight;
+
+                myScroll = new iScroll('wrapperContent1', {
+                    scrollbarClass: 'myScrollbar', /* 重要样式 */
+                    useTransition: false, /* 此属性不知用意，本人从true改为false */
+                    topOffset: pullDownOffset,
+                    onRefresh: function () {
+                        if (pullDownEl.className.match('loading')) {
+                            pullDownEl.className = '';
+                            pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+                        } else if (pullUpEl.className.match('loading')) {
+                            pullUpEl.className = '';
+                            pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+                        }
+                    },
+                    onScrollMove: function () {
+                        if (this.y > 5 && !pullDownEl.className.match('flip')) {
+                            pullDownEl.className = 'flip';
+                            pullDownEl.querySelector('.pullDownLabel').innerHTML = '松手开始更新...';
+                            this.minScrollY = 0;
+                        } else if (this.y < 5 && pullDownEl.className.match('flip')) {
+                            pullDownEl.className = '';
+                            pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+                            this.minScrollY = -pullDownOffset;
+                        } else if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+                            pullUpEl.className = 'flip';
+                            pullUpEl.querySelector('.pullUpLabel').innerHTML = '松手开始更新...';
+                            this.maxScrollY = this.maxScrollY;
+                        } else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+                            pullUpEl.className = '';
+                            pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+                            this.maxScrollY = pullUpOffset;
+                        }
+                    },
+                    onScrollEnd: function () {
+                        if (pullDownEl.className.match('flip')) {
+                            pullDownEl.className = 'loading';
+                            pullDownEl.querySelector('.pullDownLabel').innerHTML = '加载中...';
+
+                            pullDownAction();	// Execute custom function (ajax call?)
+
+                        } else if (pullUpEl.className.match('flip')) {
+                            pullUpEl.className = 'loading';
+                            pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';
+
+                            pullUpAction();	// Execute custom function (ajax call?)
+                        }
+                    }
+                });
+
+                setTimeout(function () { document.getElementById('wrapperContent1').style.left = '0'; }, 800);
+            }
+
+            //初始化绑定iScroll控件 
+            //document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+            //document.addEventListener('DOMContentLoaded', loaded2, false); 
+
+        </script>
+        <style type="text/css" media="all">
+            /**
+	 *
+	 * 下拉样式 Pull down styles
+	 *
+	 */
+            #pullDown, #pullUp {
+                background: #fff;
+                height: 50px;
+                line-height: 40px;
+                padding: 5px 10px;
+                border-bottom: 1px solid #ccc;
+                font-weight: bold;
+                font-size: 14px;
+                color: #888;
+            }
+
+            #pullUp {
+                padding: 15px 10px 0px 0px;
+            }
+
+                #pullDown .pullDownIcon, #pullUp .pullUpIcon {
+                    display: block;
+                    float: left;
+                    width: 40px;
+                    height: 40px;
+                    background: url(Styles/Jquerymobile/scrollbar/pull-icon@2x.png) 0 0 no-repeat;
+                    -webkit-background-size: 40px 80px;
+                    background-size: 40px 80px;
+                    -webkit-transition-property: -webkit-transform;
+                    -webkit-transition-duration: 250ms;
+                }
+
+            #pullDown .pullDownIcon {
+                -webkit-transform: rotate(0deg) translateZ(0);
+            }
+
+            #pullUp .pullUpIcon {
+                -webkit-transform: rotate(-180deg) translateZ(0);
+            }
+
+            #pullDown.flip .pullDownIcon {
+                -webkit-transform: rotate(-180deg) translateZ(0);
+            }
+
+            #pullUp.flip .pullUpIcon {
+                -webkit-transform: rotate(0deg) translateZ(0);
+            }
+
+            #pullDown.loading .pullDownIcon, #pullUp.loading .pullUpIcon {
+                background-position: 0 100%;
+                -webkit-transform: rotate(0deg) translateZ(0);
+                -webkit-transition-duration: 0ms;
+                -webkit-animation-name: loading;
+                -webkit-animation-duration: 2s;
+                -webkit-animation-iteration-count: infinite;
+                -webkit-animation-timing-function: linear;
+            }
+
+            @-webkit-keyframes loading {
+                from {
+                    -webkit-transform: rotate(0deg) translateZ(0);
+                }
+
+                to {
+                    -webkit-transform: rotate(360deg) translateZ(0);
+                }
+            }
+        </style>
+        <div data-role="header" data-position="fixed" data-theme="b">
+            <a href="#" onclick="goTo('home.html')"
+					data-role="button" data-inline="true" data-icon="back">返回</a>
+            <h1>传真列表
+            </h1>
+            <a data-role="button" href="javascript:pullUpAction();" data-icon="refresh" data-iconpos="left" class="ui-btn-right">刷新</a>
+        </div>
+        <div data-role="content" data-theme="d">
+            <div id="wrapperContent1" class="wrapper">
+                <div id="scrollerContent1" class="scroller">
+                    <!--<div id="pullDown">
+                        <span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>
+                    </div>-->
+
+                    <ul data-role="listview" data-filter="true" id="contentList1" class="contentList">
+                        <li></li>
+                    </ul>
+                   <!-- <div id="pullUp">
+                        <span class="pullUpIcon"></span><span class="pullUpLabel">上拉加载更多...</span>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

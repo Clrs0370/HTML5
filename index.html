@@ -6,92 +6,114 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title></title>
-    <link rel="stylesheet" href="https://d10ajoocuyu32n.cloudfront.net/mobile/1.3.1/jquery.mobile-1.3.1.min.css">
+
+   
+    <link href="Styles/Jquerymobile/jquery.mobile-1.3.0.min.css" rel="stylesheet" />
+    <link href="Styles/Jquerymobile/jquery.mobile.simpledialog.min.css" rel="stylesheet" />
+    <link href="Styles/Jquerymobile/scrollbar/scrollbar.css" rel="stylesheet" />
+    <link href="Styles/global.css" rel="stylesheet" />
     <!-- Extra Codiqa features -->
-    <link rel="stylesheet" href="codiqa.ext.css">
+    <link href="Styles/ext.css" rel="stylesheet" />
+
     <!-- jQuery and jQuery Mobile -->
-    <script src="https://d10ajoocuyu32n.cloudfront.net/jquery-1.9.1.min.js"></script>
-    <script src="https://d10ajoocuyu32n.cloudfront.net/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
-    <!-- Extra Codiqa features -->
-    <script src="https://d10ajoocuyu32n.cloudfront.net/codiqa.ext.js"></script>
+   <script src="Scripts/iscroll.js"></script>
+    <script src="Scripts/Jquery/jquery-1.8.2.min.js"></script>
+   
+
     <script type="text/javascript">
-//        $("#sub").keyup(function () {
-//            var txtAccount = $("#txtUserAccount").val();
-//            var txtPwd = $("#txtPwd").val();
-//            $.post("http://h5.ot.yuantel.net/login.ashx", { Account: txtAccount, pwd: txtPwd }, function (result) {
-//                if (result == 100) {
-//                    
-//                    $.mobile.changePage("index1.html", "slidedown", true, true);  
-//                }
-//                else {
-//                    alert(result);
-//                }
+        $(document).bind("mobileinit", function () {
+            
+            $.mobile.allowCrossDomainPages = true;
+            $.support.cors = true;
+            //$.mobile.page.prototype.options.domCache = true;
+            sessionStorage.removeItem("UserInfo");
+            
+        });
 
-//            });
-//        });
-
-function a() {
-
-    var txtAccount = $("#txtUserAccount").val();
-    var txtPwd = $("#txtPwd").val();
-
-
-    $.ajax({
-        type: "post",
-        async: false,
-        url: "http://h5.ot.yuantel.net/login.ashx",
-        success: function (json) {
-            alert(json);
-            location.href = "index1.html";
-        },
-        error: function () {
-
-            alert('fail');
-        }
-    });
-//    $.post("http://h5.ot.yuantel.net/login.ashx", { Account: txtAccount, pwd: txtPwd }, function (result) {
-//        if (result == 100) {
-
-//            $.mobile.changePage("index1.html", "slidedown", true, true);
-//        }
-//        else {
-//            alert(result);
-//        }
-
-//    })
-};
+        function Exit()
+            	    {
+                	    navigator.app.exitApp();
+                	    }
+        
     </script>
+
+    <script src="Scripts/Jquerymobile/jquery.mobile-1.3.0.min.js"></script>
+    <script src="Scripts/Jquerymobile/jquery.mobile.simpledialog.min.js"></script>
+
+    <!-- Extra Codiqa features -->
+    <script src="Scripts/ext.js"></script>
+       <script src="Scripts/global.js"></script>
+   <!-- <script>
+        $(document).bind("pagebeforeload", function (event, data) {
+
+            alert('触发了 Pagebeforeload 事件');
+
+        });
+        $(document).bind("pageload", function (event, data) {
+
+            alert('触发了 pageload 事件');
+
+        });
+        $(document).bind("pagebeforechange", function (event, data) {
+
+            alert('触发了 pagebeforechange 事件');
+
+        });
+        $(document).bind("pagechange", function (event, data) {
+
+            alert('触发了 pagechange 事件');
+
+        });
+       
+        $('#homePage').live('pagebeforeshow', function (event, ui) {
+            alert('homePagep agebeforeshow');
+        });
+
+        $('#homePage').live('pagebeforehide', function (event, ui) {
+            alert('homePage pagebeforehide ');
+        });
+        $('#homePage').live('pageshow', function (event, ui) {
+            alert('homePage pageshow ');
+        });
+
+        $('#homePage').live('pagehide', function (event, ui) {
+            alert(' homePage pagehide ');
+        });
+
+       
+	</script>-->
+    
 </head>
 <body>
     <!-- Home -->
     <div data-role="page" id="page1">
         <div id="loginTop" data-theme="b" data-role="header">
             <h1>
-                远特通信|手机传真
+                网络传真V1.0
             </h1>
+
         </div>
         <div data-role="content">
-            <form action="">
-            <div data-role="fieldcontain">
-                <label for="txtUserAccount">
-                    账户
-                </label>
-                <input name="" id="txtUserAccount" placeholder="" value="" data-mini="true" type="email">
-            </div>
-            <div data-role="fieldcontain">
-                <label for="textinput2">
-                    密码
-                </label>
-                <input name="" id="txtPwd" placeholder="" value="" data-mini="true" type="password">
-            </div>
+            <br />
+            <br />
+            <br />
+            <form>
+                <div data-role="fieldcontain">
+                    <label for="txtUserAccount">
+                        邮箱
+                    </label>
+                    <input name="" id="txtUserAccount" placeholder="请输入邮箱" value="ceshi@yuantel.com" data-mini="true" type="email">
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="txtpassword">
+                        密码
+                    </label>
+                    <input name="" id="txtpassword" placeholder="请输入密码" value="1111aaaa" data-mini="true" type="password">
+                </div>
             </form>
-            <input data-theme="b"  data-icon="arrow-r" data-iconpos="right" value="登录"  type="submit"  onclick="a();">
-           <!-- <a data-role="button"  onclick="a();">
-            Button
-        </a>-->
-            <!--<a href="dialog.html" data-rel="dialog" data-role="button" data-transition="pop">Open dialog </a>-->
+            <input data-theme="b" data-icon="arrow-r" data-iconpos="right" value="登录" type="submit" onclick="sumit();">
             <ul data-role="listview" data-divider-theme="b" data-inset="true">
-                <li data-theme="c"><a href="#page1" data-transition="none">注册 </a></li>
+                <li data-theme="c"><a href="javascript:Exit()" data-transition="none">注册 </a></li>
                 <li data-theme="c"><a href="#page1" data-transition="none">客服 </a></li>
             </ul>
         </div>
