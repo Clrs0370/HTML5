@@ -387,7 +387,7 @@ function CreateSendList(divList, list) {
 
     var content = "";
 
-    for (var i = 1; i < list.length; i++) {
+    for (var i = 0; i < list.length; i++) {
         content = content + "<li>";
         content = content + "<a href=\"#\" onclick=\"GoTo('details-Send.html?cn=" + list[i].FaxNum + "&sub=" + list[i].Subject + "&date=" + list[i].Date + "&url=" + list[i].FaxFile + "&sys=" + list[i].BatchNo + "&dis=" + list[i].DisplayName + "')\">";
         //content = content + "<img src=\"./img/headpic/5.jpg\" onerror=\"errpic(this)\" class=\"listpic\"/>";
@@ -412,7 +412,7 @@ function AppendSendList(divList, list) {
    th.removeChild(th.childNodes[th.childNodes.length - 1]);
 
    var content = "";
-    for (var i = 1; i < list.length; i++) {
+    for (var i = 0; i < list.length; i++) {
         content = content + "<li>";
         content = content + "<a href=\"#\" onclick=\"GoTo('details.html?cn=" + list[i].FaxNum + "&sub=" + list[i].Subject + "&date=" + list[i].Date + "&url=" + list[i].FaxFile + "&sys=" + list[i].BatchNo + "&flag=1')\">";
         //content = content + "<img src=\"./img/headpic/5.jpg\" onerror=\"errpic(this)\" class=\"listpic\"/>";
@@ -651,7 +651,7 @@ function CreateList(divList, list) {
     }
 
     var content = "";
-    for (var i = 1; i < list.length; i++) {
+    for (var i = 0; i < list.length; i++) {
         content = content + "<li>";
         content = content + "<a href=\"#\" onclick=\"GoTo('details.html?cn=" + list[i].CallerNum + "&sub=" + list[i].Subject + "&date=" + list[i].Date + "&url=" + list[i].FaxFile + "&sys=" + list[i].SysID + "&flag=0')\">";
         //content = content + "<img src=\"./img/headpic/5.jpg\" onerror=\"errpic(this)\" class=\"listpic\"/>";
@@ -675,7 +675,7 @@ function AppendList(divList, list) {
     th.removeChild(th.childNodes[th.childNodes.length - 1]);
 
     var content = "";
-    for (var i = 1; i < list.length; i++) {
+    for (var i = 0; i < list.length; i++) {
 
         content = content + "<li>";
         content = content + "<a href=\"#\" onclick=\"GoTo('details.html?cn=" + list[i].CallerNum + "&sub=" + list[i].Subject + "&date=" + list[i].Date + "&url=" + list[i].FaxFile + "&sys=" + list[i].SysID + "&pages=" + list[i].Pages + "')\">";
