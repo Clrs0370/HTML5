@@ -1,122 +1,278 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title></title>
+    <title>网络传真V1.1</title>
+    <link href="CSS/Jquerymobile/jquery.mobile-1.3.0.min.css" rel="stylesheet" />
+    <link href="CSS/global.css" rel="stylesheet" />
+    <!--<link href="CSS/scrollbar/scrollbar.css" rel="stylesheet" />-->
+    <link href="CSS/jquery-mobile.css" rel="stylesheet" />
+    <link href="CSS/photoswipe.css" rel="stylesheet" />
 
-   
-    <link href="Styles/Jquerymobile/jquery.mobile-1.3.0.min.css" rel="stylesheet" />
-    <link href="Styles/Jquerymobile/jquery.mobile.simpledialog.min.css" rel="stylesheet" />
-    <link href="Styles/Jquerymobile/scrollbar/scrollbar.css" rel="stylesheet" />
-    <link href="Styles/global.css" rel="stylesheet" />
-    <!-- Extra Codiqa features -->
-    <link href="Styles/ext.css" rel="stylesheet" />
+    <script src="JS/klass.min.js"></script>
+    <script src="JS/Jquery/jquery-1.8.2.min.js"></script>
 
-    <!-- jQuery and jQuery Mobile -->
-   <script src="Scripts/iscroll.js"></script>
-    <script src="Scripts/Jquery/jquery-1.8.2.min.js"></script>
-   
-
-    <script type="text/javascript">
+    <script>
         $(document).bind("mobileinit", function () {
-            
+
             $.mobile.allowCrossDomainPages = true;
             $.support.cors = true;
-            //$.mobile.page.prototype.options.domCache = true;
             sessionStorage.removeItem("UserInfo");
-            
+
         });
 
-        function Exit()
-            	    {
-                	    navigator.app.exitApp();
-                	    }
-        
     </script>
 
-    <script src="Scripts/Jquerymobile/jquery.mobile-1.3.0.min.js"></script>
-    <script src="Scripts/Jquerymobile/jquery.mobile.simpledialog.min.js"></script>
+    <script src="JS/Jquerymobile/jquery.mobile-1.3.0.min.js"></script>
+    <script src="JS/code.photoswipe.jquery-3.0.5.min.js"></script>
+    <script src="JS/global.js"></script>
+    <script src="JS/Common.js"></script>
+    <script src="JS/cordova.js"></script>
+    <!--<script src="JS/iscroll.js"></script>-->
 
-    <!-- Extra Codiqa features -->
-    <script src="Scripts/ext.js"></script>
-       <script src="Scripts/global.js"></script>
-   <!-- <script>
-        $(document).bind("pagebeforeload", function (event, data) {
+   <!-- <style type="text/css" media="all">
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
 
-            alert('触发了 Pagebeforeload 事件');
+        body {
+            font-size: 12px;
+            -webkit-user-select: none;
+            -webkit-text-size-adjust: none;
+            font-family: helvetica;
+        }
 
-        });
-        $(document).bind("pageload", function (event, data) {
+        #wrapper, #recvWrapper {
+            position: absolute;
+            z-index: 1;
+            top: 45px;
+            bottom: 48px;
+            left: 0;
+            width: 100%;
+            background: #555;
+            overflow: auto;
+        }
 
-            alert('触发了 pageload 事件');
+        #scroller, #recvScroller {
+            position: relative;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            float: left;
+            width: 100%;
+            padding: 0;
+        }
 
-        });
-        $(document).bind("pagebeforechange", function (event, data) {
+        .listtitle {
+            color: #006699;
+            margin-top: 1px;
+            font-size: 11pt;
+            font-weight: bold;
+        }
 
-            alert('触发了 pagebeforechange 事件');
+        .timestyle {
+            color: grey;
+            margin-top: 1px;
+            font-size: 10pt;
+            float: right;
+            margin-right: 5px;
+        }
 
-        });
-        $(document).bind("pagechange", function (event, data) {
+        #scroller ul, #recvScroller ul {
+            position: relative;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            text-align: left;
+        }
 
-            alert('触发了 pagechange 事件');
+        #scroller li, #recvScroller li {
+            padding: 0 10px;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #ccc;
+            border-top: 1px solid #fff;
+            background-color: #fafafa;
+            font-size: 14px;
+        }
 
-        });
-       
-        $('#homePage').live('pagebeforeshow', function (event, ui) {
-            alert('homePagep agebeforeshow');
-        });
+            #scroller li > a, #recvScroller li > a {
+                display: block;
+            }
 
-        $('#homePage').live('pagebeforehide', function (event, ui) {
-            alert('homePage pagebeforehide ');
-        });
-        $('#homePage').live('pageshow', function (event, ui) {
-            alert('homePage pageshow ');
-        });
+        /**
+ *
+ * 下拉样式 Pull down styles
+ *
+ */
+        #pullDown, #recvPullDown, #pullUp, #recvPullUp {
+            background: #fff;
+            height: 40px;
+            line-height: 40px;
+            padding: 5px 10px;
+            border-bottom: 1px solid #ccc;
+            font-weight: bold;
+            font-size: 14px;
+            color: #888;
+        }
 
-        $('#homePage').live('pagehide', function (event, ui) {
-            alert(' homePage pagehide ');
-        });
+            #pullDown .pullDownIcon, #pullUp .pullUpIcon, #recvPullDown .pullDownIcon, #recvPullUp .pullUpIcon {
+                display: block;
+                float: left;
+                width: 40px;
+                height: 40px;
+                background: url(CSS/scrollbar/pull-icon@2x.png) 0 0 no-repeat;
+                -webkit-background-size: 40px 80px;
+                background-size: 40px 80px;
+                -webkit-transition-property: -webkit-transform;
+                -webkit-transition-duration: 250ms;
+            }
 
-       
-	</script>-->
-    
+            #pullDown .pullDownIcon, #recvPullDown .pullDownIcon {
+                -webkit-transform: rotate(0deg) translateZ(0);
+            }
+
+            #pullUp .pullUpIcon, #recvPullUp .pullUpIcon {
+                -webkit-transform: rotate(-180deg) translateZ(0);
+            }
+
+            #pullDown.flip .pullDownIcon, #recvPullDown.flip .pullDownIcon {
+                -webkit-transform: rotate(-180deg) translateZ(0);
+            }
+
+            #pullUp.flip .pullUpIcon, #recvPullUp.flip .pullUpIcon {
+                -webkit-transform: rotate(0deg) translateZ(0);
+            }
+
+            #pullDown.loading .pullDownIcon, #pullUp.loading .pullUpIcon, #recvPullDown.loading .pullDownIcon, #recvPullUp.loading .pullUpIcon {
+                background-position: 0 100%;
+                -webkit-transform: rotate(0deg) translateZ(0);
+                -webkit-transition-duration: 0ms;
+                -webkit-animation-name: loading;
+                -webkit-animation-duration: 2s;
+                -webkit-animation-iteration-count: infinite;
+                -webkit-animation-timing-function: linear;
+            }
+
+        @-webkit-keyframes loading {
+            from {
+                -webkit-transform: rotate(0deg) translateZ(0);
+            }
+
+            to {
+                -webkit-transform: rotate(360deg) translateZ(0);
+            }
+        }
+    </style>-->
 </head>
 <body>
-    <!-- Home -->
-    <div data-role="page" id="page1">
-        <div id="loginTop" data-theme="b" data-role="header">
-            <h1>
-                网络传真V1.0
+    <div id="index" data-role="page">
+        <div id="indexHeader" data-theme="b" data-role="header">
+            <h1>网络传真
             </h1>
 
         </div>
-        <div data-role="content">
-            <br />
-            <br />
-            <br />
+        <div id="indexContent" data-role="content">
             <form>
                 <div data-role="fieldcontain">
                     <label for="txtUserAccount">
-                        邮箱
+                        账户
                     </label>
-                    <input name="" id="txtUserAccount" placeholder="请输入邮箱" value="ceshi@yuantel.com" data-mini="true" type="email">
+                    <input name="" id="txtUserAccount" placeholder="请输入账户" data-mini="true" type="email">
                 </div>
                 <div data-role="fieldcontain">
-                    <label for="txtpassword">
+                    <label for="txtPassWord">
                         密码
                     </label>
-                    <input name="" id="txtpassword" placeholder="请输入密码" value="1111aaaa" data-mini="true" type="password">
+                    <input name="" id="txtPassWord" placeholder="请输入密码" data-mini="true" type="password">
                 </div>
+                <input id="submit" data-theme="b" data-icon="arrow-r" data-iconpos="right" value="登录" type="submit" onclick="login();">
             </form>
-            <input data-theme="b" data-icon="arrow-r" data-iconpos="right" value="登录" type="submit" onclick="sumit();">
-            <ul data-role="listview" data-divider-theme="b" data-inset="true">
-                <li data-theme="c"><a href="javascript:Exit()" data-transition="none">注册 </a></li>
-                <li data-theme="c"><a href="#page1" data-transition="none">客服 </a></li>
+
+        </div>
+
+    </div>
+
+    <!-- 发送 -->
+    <div id="sendfaxlist" data-role="page">
+        <div data-role="header" data-theme="b">
+            <a id="btn_Menus" data-role="button" data-theme="b" href="#menus"
+                data-rel="popup" data-icon="bars" data-iconpos="notext" class="ui-btn-left"></a>
+            <h1>已发送列表</h1>
+            <a id="btn_SendRef" data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="notext" class="ui-btn-right"></a>
+        </div>
+        <div data-role="content" data-theme="d">
+         <!--   <div id="wrapper">
+                <div id="scroller">
+                    <div id="pullDown">
+                        <span class="pullDownIcon"></span>
+                        <span class="pullDownLabel">下拉刷新...</span>
+                    </div>-->
+
+                    <ul id="thelist" data-role="listview">
+                    </ul>
+
+                  <!--  <div id="pullUp">
+                        <span class="pullUpIcon"></span><span class="pullUpLabel">上拉加载更多...</span>
+                    </div>
+
+                </div>
+            </div>-->
+        </div>
+        <div data-role="footer" data-theme="b">
+        </div>
+
+        <div data-role="popup" id="menus" data-theme="b">
+            <ul data-role="listview" data-theme="c" data-inset="true">
+                <li><a href="javascript:GoTo('home.html')" data-transition="slide">主页</a></li>
+                <li><a href="#recvfaxlist" data-transition="slide">收件箱</a></li>
+                <!-- <li><a href="#sendfaxlist" data-transition="slide">已发送</a></li>-->
+                <li><a href="javascript:GoTo('sendfax.html')" data-transition="slide">发传真</a></li>
             </ul>
         </div>
+    </div>
+
+    <!-- 接收 -->
+    <div id="recvfaxlist" data-role="page">
+        <div data-role="header" data-theme="b">
+            <a id="A1" data-role="button" data-theme="b" href="#rmenus"
+                data-rel="popup" data-icon="bars" data-iconpos="notext" class="ui-btn-left"></a>
+            <h1>接收列表</h1>
+            <a id="btn_RecvRef" data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="notext" class="ui-btn-right"></a>
+        </div>
+        <div data-role="content" data-theme="d" id="recvContent">
+           <!-- <div id="recvWrapper">
+                <div id="recvScroller">
+                    <div id="recvPullDown">
+                        <span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>
+                    </div>-->
+
+                    <ul id="recvList" data-role="listview">
+                    </ul>
+
+                <!--    <div id="recvPullUp">
+                        <span class="pullUpIcon"></span><span class="pullUpLabel">上拉加载更多...</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>-->
+        <div data-role="footer" data-theme="b">
+        </div>
+        <div data-role="popup" id="rmenus" data-theme="b">
+            <ul data-role="listview" data-theme="c" data-inset="true">
+                <li><a href="javascript:GoTo('home.html')" data-transition="slide">主页</a></li>
+                <!--<li><a href="#recvfaxlist" data-transition="slide">收件箱</a></li>-->
+                <li><a href="#sendfaxlist" data-transition="slide">已发送</a></li>
+                <li><a href="javascript:GoTo('sendfax.html')" data-transition="slide">发传真</a></li>
+            </ul>
+        </div>
+
     </div>
 </body>
 </html>
