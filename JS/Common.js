@@ -353,7 +353,7 @@ function SendLoadData(index, size, flag) {
                       }
 
                       //pullDownEl.style.display = "block";
-                      OpenPopup("没有接收到新的传真");
+                      //OpenPopup("没有接收到新的传真");
                   }
               },
               function (jqXHR, textStatus, errorThrown) {
@@ -365,7 +365,7 @@ function SendLoadData(index, size, flag) {
                       sendIndex--;
                   }
 
-                  pullDownEl.style.display = "block";
+                  //pullDownEl.style.display = "block";
                   OpenPopup("Error:" + textStatus + "," + errorThrown);
 
               }
@@ -570,8 +570,8 @@ function beforechange(e, data) {
                                                         : (sysid + "-" + i)
                                                      );
 
-                        content += "<li><a href='" + obj + "'\"><img src='" + obj + "' alt='第" + (i + 1) + "页' height=\"100%\" width=\"100%\" /></a></li>";
-                        //<li><a href=\"javascript:dialogPhoto('" + obj + "')\"><img src='" + obj + "' alt='第" + (i + 1) + "页' /></a></li>
+                        // "<li><a href='" + obj + "'\"><img src='" + obj + "' alt='第" + (i + 1) + "页' height=\"100%\" width=\"100%\" /></a></li>";
+                        content += "<li><a href=\"javascript:dialogPhoto('" + obj + "')\"><img src='" + obj + "' alt='第" + (i + 1) + "页' /></a></li>";
                     }
 
                     page.find("#Gallery").html(content);
@@ -692,42 +692,42 @@ function AppendList(divList, list) {
 
 }
 
-$('#detailsPage').live('pageshow', function (e) {
+//$('#detailsPage').live('pageshow', function (e) {
 
-    var currentPage = $(e.target),
-        options = {
-            getToolbar: function () {
+//    var currentPage = $(e.target),
+//        options = {
+//            getToolbar: function () {
 
-                return '<div class="ps-toolbar-close" style="padding-top: 12px;">返回</div><div class="ps-toolbar-previous" style="padding-top: 12px;">上一页</div><div class="ps-toolbar-next" style="padding-top: 12px;">下一页</div>';
+//                return '<div class="ps-toolbar-close" style="padding-top: 12px;">返回</div><div class="ps-toolbar-previous" style="padding-top: 12px;">上一页</div><div class="ps-toolbar-next" style="padding-top: 12px;">下一页</div>';
 
-            },
-            allowRotationOnUserZoom: true,
-            imageScaleMethod: "fit",
-            captionAndToolbarAutoHideDelay: 0,
-            preventDefaultTouchEvents: false
-            //doubleTapSpeed: false,
-            //doubleTapSpeed:100
-        },
-        instance = $("ul.gallery a", e.target).photoSwipe(options, currentPage.attr('id'));
+//            },
+//            allowRotationOnUserZoom: true,
+//            imageScaleMethod: "fit",
+//            captionAndToolbarAutoHideDelay: 0,
+//            preventDefaultTouchEvents: false
+//            //doubleTapSpeed: false,
+//            //doubleTapSpeed:100
+//        },
+//        instance = $("ul.gallery a", e.target).photoSwipe(options, currentPage.attr('id'));
 
-    return true;
+//    return true;
 
-})
+//})
 
-            .live('pagehide', function (e) {
+//            .live('pagehide', function (e) {
 
-                var
-                    currentPage = $(e.target),
-                    PhotoSwipe = window.Code.PhotoSwipe,
-                    photoSwipeInstance = PhotoSwipe.getInstance(currentPage.attr('id'));
+//                var
+//                    currentPage = $(e.target),
+//                    PhotoSwipe = window.Code.PhotoSwipe,
+//                    photoSwipeInstance = PhotoSwipe.getInstance(currentPage.attr('id'));
 
-                if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
-                    PhotoSwipe.detatch(photoSwipeInstance);
-                }
+//                if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
+//                    PhotoSwipe.detatch(photoSwipeInstance);
+//                }
 
-                return true;
+//                return true;
 
-            });
+//            });
 
 function GetImageData(url, page, sysid) {
     ShowLoading(true, "正在加载……");
@@ -747,8 +747,8 @@ function GetImageData(url, page, sysid) {
 
                        for (var i = 0; i < img64.length; i++) {
 
-                           content += "<li><a href='" + img64[i].Data + "'><img src='" + img64[i].Data + "' alt='第" + (i + 1) + "页' /></a></li>";
-
+                           //content += "<li><a href='" + img64[i].Data + "'><img src='" + img64[i].Data + "' alt='第" + (i + 1) + "页' /></a></li>";
+                           content += "<li><a href=\"javascript:dialogPhoto('" + obj + "')\"><img src='" + obj + "' alt='第" + (i + 1) + "页' /></a></li>";
                            localStorage.setItem(
                                                     (
                                                         i == 0
