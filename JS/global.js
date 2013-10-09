@@ -5,7 +5,7 @@
 var ServerURL = "http://192.168.3.26:82/";
 var localHost = "http://localhost:13375/";
 
-ServerURL = localHost;
+//ServerURL = localHost;
 
 //电子邮箱
 var Email = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-|_)[A-Za-z0-9]+)*\.([a-zA-Z0-9_-])+$/;
