@@ -2,6 +2,7 @@
 //Login
 //登录
 function login() {
+
     ShowLoading(true, "正在登录……");
 
     var userAccount = $("#txtUserAccount").val();
@@ -13,13 +14,21 @@ function login() {
     //    return;
     //}
 
+    if (userAccount == "" || password == "") {
+
+        HideLoading();
+        msgBox("账户或密码不能为空！");
+
+        return;
+    }
+
     var url = ServerURL + "login.ashx?Acd=" + userAccount + "&Pwd=" + password;
 
     YtAjax(
             url,
             "hide",
             function (data, textStatus, jqXHR) {
-                HideLoading();
+                
 
                 if (data.ResultCode != undefined && data.ResultCode == 100) {
 
@@ -30,15 +39,20 @@ function login() {
                     sessionStorage.setItem("UserInfo", jsonObj);//存储用户信息
 
                     GoTo("home.html");
+
+                    HideLoading();
                 }
                 else {
+                    HideLoading();
                     msgBox("用户名或密码有误！");
                 }
             },
             function (jqXHR, textStatus, errorThrown) {
 
                 HideLoading();
-                msgBox("Error:" + textStatus + "," + errorThrown);
+
+               // msgBox("用户名或密码有误！");
+                //msgBox("Error:" + textStatus + "," + errorThrown);
             }
 
         );
